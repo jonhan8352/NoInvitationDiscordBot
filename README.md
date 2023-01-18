@@ -2,17 +2,24 @@
 
 We are going to create a simple Discord bot that sends a warning message when a member invites others to a YouTube channel, another Discord server, or a Twitch channel, except the server owner or administrators.
 
-First of all, let's import the Discord library.
+First of all, let's import the Discord and OS library. The OS module in Python provides functions for creating and removing a directory (folder), fetching its contents, changing and identifying the current directory, etc. Instead of putting the token in the script, we will use OS module to retrieve the bot token.
 
 ```
 import discord
+import os
 from discord import Message
 ```
 
-Let's say we also need to verify whether the Discord bot successfully executed, we also need to add following lines in the code.
+Let's use the keep_alive library with following code.
 
 ```
-bot = commands.Bot(command_prefix='!')
+from keep_alive import keep_alive
+```
+
+Let's say we also need to verify whether the Discord bot successfully executed, we need to add following lines in the code. It will prompt the messsage on the console screen.
+
+```
+client = discord.Client()
 
 @bot.event
 async def on_ready():
@@ -31,8 +38,14 @@ async def on_message(message: Message):
             await message.channel.send("Please do not post links to other YouTube, Discord or Twitch channels here.")
 ```
 
+We will need to use following code to enable the bot to stay alive.
+
+```
+keep_alive()
+```
+
 And finally at the end of the Python script, please add the Discord bot token in order for the Python script to verify the Discord bot's token.
 
 ```
-bot.run('YOUR_BOT_TOKEN')
+client.run(os.getenv('your_secret_token_key'))
 ```
